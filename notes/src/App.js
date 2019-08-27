@@ -1,19 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 import ReactDOM from 'react-dom';
 
 // Create
 import Create from './Create';
-// Delete
-import Delete from './Delete';
+
 
 
 class App extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
-      character: {}
+        Items: [],
+        currentItem: {text:'', key: ''}
+    }
+  }
+  handleInput = e => {
+    const itemText = e.target.vallue
+    const currentItem = { text: itemText, key: Date.now()}
+    this.setState({
+      currentItem,
+    })
+  }
+  addItem = e => {
+    e.preventDefault()
+    const newItem = this.state.currentItem
+    if (newItem.text !== '') {
+      console.log(newItem)
+      const items = [...this.state.items, newItem]
+      this.setState({
+        items: items,
+        currentItem: { text: '', key: '' },
+      })
     }
   }
 
@@ -27,15 +44,19 @@ class App extends Component {
   })
 }
 
-
+/*
+<div>
+        {this.state.character.title}
+        </div>
+        */
   render() {
     return (
       <div className="App">
         <div className="create">
-          <Create />
-        </div>
-        <div>
-        {this.state.character.title}
+          <Create addItem={this.addItem} 
+          inputElement={this.inputElement}
+          handleInput = {this.handleInput}
+          currentItem = {this.state.currentItem}/>
         </div>
       </div>
     );
